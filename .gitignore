@@ -8,6 +8,8 @@ node_modules
 /.svelte-kit
 /build
 
+bun.lockb
+
 # OS
 .DS_Store
 Thumbs.db
