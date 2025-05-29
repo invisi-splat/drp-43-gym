@@ -9,6 +9,7 @@ node_modules
 /build
 
 bun.lockb
+package-lock.json
 
 # OS
 .DS_Store
