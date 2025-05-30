@@ -79,7 +79,7 @@
   <Page>
     <h1 class="text-5xl font-bold">Welcome!</h1>
     <p class="text-center text-2xl">We'd like to ask you a few questions to help select machines for you to start on.</p>
-    <button class="p-3 bg-amber-200 active:bg-amber-400 text-3xl font-semibold mt-10" onclick={advancePage}>Start</button>
+    <button class="p-3 bg-amber-200 active:bg-amber-400 text-3xl font-semibold mt-10" onclick={advancePage}>Go</button>
   </Page>
   {/if}
 </div>
