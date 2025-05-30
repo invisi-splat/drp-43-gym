@@ -3,11 +3,14 @@
   import { trainingGoals, machineTypes } from "$lib/types/induction"; // FIXME replace machines with a call to a db
 	import { SvelteSet } from "svelte/reactivity";
 	import { fade } from "svelte/transition";
+	import { goto } from "$app/navigation";
   
   interface Form {
     goal: string
     selectedMachines: SvelteSet<string>
   }
+
+  const MAX_PAGE = 4
 
   let page = $state(0);
   let form: Form = $state({ goal: "", selectedMachines: new SvelteSet()})
@@ -16,6 +19,9 @@
 
   const advancePage = () => {
     page++;
+    if (page > MAX_PAGE) {
+      goto("/induction/start")
+    }
     showNext = false;
   }
 </script>
@@ -65,11 +71,11 @@
   </Page>
   {:else if page === 4}
   <Page>
-    <h1 class="text-5xl font-bold text-center">Are there any physical limitations?</h1>
+    <h1 class="text-5xl font-bold text-center">Finally—are there any physical limitations?</h1>
     <p>... physical limitations ...</p>
     <button class="bg-orange-100 p-4 text-xl">Placeholder choice</button>
   </Page>
-  {:else}
+  {:else if page < MAX_PAGE}
   <Page>
     <h1 class="text-5xl font-bold">Welcome!</h1>
     <p class="text-center text-2xl">We'd like to ask you a few questions to help select machines for you to start on.</p>
