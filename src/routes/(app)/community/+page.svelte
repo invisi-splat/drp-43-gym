@@ -2,6 +2,17 @@
 	import Workout from './workout.svelte';
 	import { testWorkoutComponents } from '$lib/placeholderData';
 	import FloatingPlus from './floatingPlus.svelte';
+	import WorkoutCreator from './workoutCreator.svelte';
+
+	let workoutCreationFormVisible = $state(false);
+
+	const showWorkoutCreator = () => {
+		workoutCreationFormVisible = true;
+	};
+
+	const workoutCreatorSubmitHandler = () => {
+		workoutCreationFormVisible = false;
+	};
 </script>
 
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100">
@@ -16,4 +27,8 @@
 	<div class="h-15"></div>
 </div>
 
-<FloatingPlus />
+{#if workoutCreationFormVisible}
+	<WorkoutCreator submitCallback={workoutCreatorSubmitHandler} />
+{/if}
+
+<FloatingPlus {showWorkoutCreator} />

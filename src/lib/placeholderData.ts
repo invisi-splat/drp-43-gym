@@ -102,3 +102,59 @@ export const testWorkoutComponents: WorkoutComponent[] = [
 		dateTime: new Date('2025-06-11T11:30:00')
 	}
 ];
+
+export const gymNames = [
+	'Iron Haven',
+	'Pulse Fitness',
+	'Flex Factory',
+	'Muscle Forge',
+	'FitNation',
+	'Powerhouse Gym',
+	'Core Collective',
+	'Titan Training',
+	'Lift Lab',
+	'The Sweat Room',
+	'Peak Performance',
+	'Urban Strength',
+	'Body Mechanics',
+	'The Fit Foundry',
+	'Energize Studio',
+	'The Grind House',
+	'Rep Republic',
+	'Endurance Edge',
+	'Prime Fitness',
+	'Ironclad Gym',
+	'Velocity Athletics',
+	'The Training Den',
+	'Summit Strength',
+	'Forge Fitness',
+	'The Conditioning Club',
+	'Ignite Athletics',
+	'Stronghold Gym',
+	'The Workout Warehouse',
+	'Momentum Fitness',
+	'The Fitness Forge'
+];
+
+export const workoutRegimens = [
+	'Arms',
+	'Legs',
+	'Chest',
+	'Back',
+	'Shoulders',
+	'Core',
+	'Full Body',
+	'Upper Body',
+	'Lower Body',
+	'Cardio',
+	'HIIT',
+	'Glutes',
+	'Abs',
+	'Calisthenics',
+	'Strength Training',
+	'Endurance',
+	'Mobility',
+	'Flexibility',
+	'Powerlifting',
+	'Olympic Lifting'
+];
