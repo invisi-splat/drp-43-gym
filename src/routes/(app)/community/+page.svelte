@@ -1,8 +1,10 @@
+
 <script lang="ts">
 	import Workout from './workout.svelte';
-	import { testWorkoutComponents } from '$lib/placeholderData';
 	import FloatingPlus from './floatingPlus.svelte';
 	import WorkoutCreator from './workoutCreator.svelte';
+
+	const { data } = $props<{ data: { workouts: WorkoutComponent[]}}>();
 
 	let workoutCreationFormVisible = $state(false);
 
@@ -19,7 +21,7 @@
 	<h1 class="p-4 font-bold text-2xl">Your workouts</h1>
 	<h1 class="p-4 font-bold text-2xl">Today</h1>
 	<div class="space-y-4">
-		{#each testWorkoutComponents as workout}
+		{#each data.workouts as workout}
 			<Workout {...workout}></Workout>
 		{/each}
 	</div>
