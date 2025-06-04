@@ -7,7 +7,7 @@ export const load: PageLoad = async () => {
     console.log(">>>>>>>>>RUNNING page.ts load functon")
 	const { data, error } = await supabase
 		.from('workouts')
-		.select('id, description, machine');
+		.select('id, name, age, skill, "isFriend", regimen, "desc", location, "dateTime"');
 
 	if (error) {
 		console.error('Error fetching workouts:', error);
@@ -16,14 +16,14 @@ export const load: PageLoad = async () => {
 
 	// Map to WorkoutComponent array
 	const workouts: WorkoutComponent[] = data.map(row => ({
-		name: 'Default name', // Placeholder
-		age: 25,              // Placeholder
-		skill: 'Novice',      // Placeholder
-		isFriend: false,      // Placeholder
-		regimen: 'Unknown',   // Placeholder
-		desc: row.description,
-		location: 'Gym',      // Placeholder
-		dateTime: new Date(), // Placeholder
+		name: row.name, // Placeholder
+		age: row.age,              // Placeholder
+		skill: row.skill,      // Placeholder
+		isFriend: row.isFriend,      // Placeholder
+		regimen: row.regimen,   // Placeholder
+		desc: row.desc,
+		location: row.location,      // Placeholder
+		dateTime: row.dateTime, // Placeholder
 	}));
 
     console.log(">>>>>>>>returning workouts: ", workouts)
