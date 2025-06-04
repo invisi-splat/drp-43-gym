@@ -3,6 +3,8 @@
 	import UserPlus from 'virtual:icons/tabler/user-plus';
 	import PinFilled from 'virtual:icons/tabler/map-pin-filled';
 	import MoodCheck from 'virtual:icons/tabler/mood-check';
+	import Send from 'virtual:icons/tabler/send';
+	import dayjs from 'dayjs';
 
 	let p: WorkoutComponent = $props();
 </script>
@@ -36,15 +38,18 @@
 		</div>
 		<div class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative">
 			<h2 class="whitespace-pre font-bold">
-				<span class="text-gray-600">Training</span> <span class="underline">{p.regiment}</span>
+				<span class="text-gray-600">Training</span> <span class="underline">{p.regimen}</span>
 			</h2>
 			<p class="text-[0.65rem] line-clamp-3 hyphens-auto">{p.desc}</p>
-			<div class="text-sm flex items-center gap-x-1">
+			<div class="text-sm flex justify-between items-center gap-x-1">
 				<PinFilled class="inline mr-1" />
 				<p class="w-[60%]">
 					<span>{p.location} @</span>
-					<span class="font-bold">{p.dateTime.getHours()}:{p.dateTime.getMinutes()}</span>
+					<span class="font-bold">{dayjs(p.dateTime).format('h:mma')}</span>
 				</p>
+				<a class="bg-gray-200 p-1.5 rounded-xl">
+					<Send />
+				</a>
 			</div>
 		</div>
 	</div>
