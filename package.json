@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.8",
+    "dayjs": "^1.11.13",
     "drizzle-orm": "^0.40.0",
     "postgres": "^3.4.5"
   },
