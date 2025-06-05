@@ -3,6 +3,7 @@
 	import Workout from './workout.svelte';
 	import FloatingPlus from './floatingPlus.svelte';
 	import WorkoutCreator from './workoutCreator.svelte';
+	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 
 	const { data } = $props<{ data: { workouts: WorkoutComponent[]}}>();
 
@@ -12,7 +13,12 @@
 		workoutCreationFormVisible = true;
 	};
 
+	const workoutCreatorDismissHandler = () => {
+		workoutCreationFormVisible = false;
+	};
+
 	const workoutCreatorSubmitHandler = () => {
+		// FIXME placeholder; actually do some stuff
 		workoutCreationFormVisible = false;
 	};
 </script>
@@ -26,11 +32,14 @@
 		{/each}
 	</div>
 	<!-- navbar compensation -->
-	<div class="h-15"></div>
+	<NavbarCompensation />
 </div>
 
 {#if workoutCreationFormVisible}
-	<WorkoutCreator submitCallback={workoutCreatorSubmitHandler} />
+	<WorkoutCreator
+		dismissCallback={workoutCreatorDismissHandler}
+		submitCallback={workoutCreatorSubmitHandler}
+	/>
 {/if}
 
 <FloatingPlus {showWorkoutCreator} />

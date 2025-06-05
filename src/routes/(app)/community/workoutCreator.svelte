@@ -1,10 +1,11 @@
 <script lang="ts">
+	import X from 'virtual:icons/tabler/x';
 	import { fade, scale } from 'svelte/transition';
 	import { FloatingLabelInput, Textarea, Datepicker } from 'flowbite-svelte';
 
 	import { gymNames, workoutRegimens } from '$lib/placeholderData';
 
-	let { submitCallback } = $props();
+	let { dismissCallback, submitCallback } = $props();
 
 	const handleSubmit = () => {
 		// data validation stuff...
@@ -23,9 +24,9 @@
 >
 	<div
 		transition:scale={{ delay: 50 }}
-		class="w-[80%] bg-white p-4 space-y-5 rounded-2xl shadow-2xl/50"
+		class="w-[80%] bg-white p-4 space-y-5 rounded-2xl shadow-2xl/50 relative"
 	>
-		<h1 class="font-bold text-2xl">Schedule a workout!</h1>
+		<h1 class="font-bold text-xl">Schedule a workout!</h1>
 		<hr class="text-gray-200" />
 		<form class="space-y-1" onsubmit={handleSubmit}>
 			<FloatingLabelInput
@@ -67,5 +68,9 @@
 				/>
 			</div>
 		</form>
+		<button
+			class="absolute right-3 top-3 bg-gray-100 p-1 rounded-lg active:bg-gray-200 transition-all"
+			onclick={dismissCallback}><X class="text-xl" /></button
+		>
 	</div>
 </div>
