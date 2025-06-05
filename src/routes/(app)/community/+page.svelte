@@ -76,7 +76,9 @@
 			<h2 class="p-4 font-bold text-xl">{groupName}</h2>
 			<div class="space-y-4">
 				{#each workouts as workout}
-					{#if workout.location === gymFilterName || gymFilterName === ''}
+					{#if workout.location
+						.toLowerCase()
+						.startsWith(gymFilterName.toLowerCase()) || gymFilterName === ''}
 						<Workout {...workout}></Workout>
 					{/if}
 				{/each}
