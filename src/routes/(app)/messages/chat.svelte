@@ -11,6 +11,6 @@
 	</div>
 	<div class="col-span-1 grid grid-rows-[60%_auto]">
 		<div class="row-span-1 font-bold">Epic chat</div>
-		<div class="row-span-1 text-sm text-gray-500">Epic chat preview shit</div>
+		<div class="row-span-1 text-sm text-gray-500">Epic chat preview</div>
 	</div>
 </a>
