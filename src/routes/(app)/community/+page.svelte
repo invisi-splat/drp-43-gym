@@ -56,7 +56,7 @@
 </script>
 
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100">
-	<h1 class="p-4 font-bold text-2xl">Your workouts</h1>
+	<h1 class="p-4 font-bold text-2xl">Workouts</h1>
 	{#each Object.entries(groupedWorkouts) as [groupName, workouts]}
 		{#if workouts.length > 0}
 			<h2 class="p-4 font-bold text-xl">{groupName}</h2>
