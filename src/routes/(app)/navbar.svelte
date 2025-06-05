@@ -8,7 +8,7 @@
 	<a
 		href={path}
 		aria-label={path}
-		class="col-span-1 {page.url.pathname === path
+		class="col-span-1 {page.url.pathname.startsWith(path)
 			? 'bg-blue-400 saturate-100'
 			: 'bg-blue-300'} flex justify-center items-center active:saturate-50"
 	>

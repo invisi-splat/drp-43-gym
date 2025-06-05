@@ -49,7 +49,7 @@
 					<span>{p.location} @</span>
 					<span class="font-bold">{dayjs(p.dateTime).format('h:mma')}</span>
 				</p>
-				<a class="bg-gray-200 p-1.5 rounded-xl">
+				<a href="/messages/chat" class="bg-gray-200 p-1.5 rounded-xl">
 					<Send />
 				</a>
 			</div>

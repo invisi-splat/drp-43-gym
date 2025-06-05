@@ -1,11 +1,10 @@
-
 <script lang="ts">
 	import Workout from './workout.svelte';
 	import FloatingPlus from './floatingPlus.svelte';
 	import WorkoutCreator from './workoutCreator.svelte';
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 
-	const { data } = $props<{ data: { workouts: WorkoutComponent[]}}>();
+	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
 
 	let workoutCreationFormVisible = $state(false);
 
@@ -32,7 +31,7 @@
 		{/each}
 	</div>
 	<!-- navbar compensation -->
-	<NavbarCompensation />
+	<NavbarCompensation size="h-28" />
 </div>
 
 {#if workoutCreationFormVisible}
