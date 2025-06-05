@@ -2,7 +2,7 @@
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 	import Chat from './chat.svelte';
 	import ChatDivider from './chatDivider.svelte';
-	import Header from './header.svelte';
+	import Header from '$lib/components/header.svelte';
 </script>
 
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100 relative pb-4">

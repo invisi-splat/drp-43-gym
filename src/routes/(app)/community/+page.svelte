@@ -4,6 +4,7 @@
 	import WorkoutCreator from './workoutCreator.svelte';
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 	import { datetime } from 'drizzle-orm/mysql-core';
+	import Header from '$lib/components/header.svelte';
 
 	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
 
@@ -55,7 +56,7 @@
 </script>
 
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100">
-	<h1 class="p-4 font-bold text-2xl">Workouts</h1>
+	<Header mainText="Workouts" />
 	{#each Object.entries(groupedWorkouts) as [groupName, workouts]}
 		{#if workouts.length > 0}
 			<h2 class="p-4 font-bold text-xl">{groupName}</h2>
