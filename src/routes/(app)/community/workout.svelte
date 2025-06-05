@@ -23,6 +23,7 @@
 			</div>
 
 			<div class="grow flex justify-center items-center">
+				<!-- XXX reenable friends after the interview is done!!!
 				<div
 					class="p-2 {p.isFriend
 						? 'bg-green-100'
@@ -33,7 +34,7 @@
 					{:else}
 						<UserPlus class="inline mr-2" /><span>Add friend</span>
 					{/if}
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<div class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative">
