@@ -23,6 +23,6 @@
 
 <style>
 	.upper-shadow {
-		box-shadow: 0px -5px 10px grey;
+		box-shadow: 0px -1px 3px grey;
 	}
 </style>
