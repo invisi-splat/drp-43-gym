@@ -14,6 +14,7 @@ export const load: PageLoad = async () => {
 
 	// Map to WorkoutComponent array
 	const workouts: WorkoutComponent[] = data.map((row) => ({
+		id: row.id,
 		name: row.name, // Placeholder
 		age: row.age, // Placeholder
 		skill: row.skill, // Placeholder

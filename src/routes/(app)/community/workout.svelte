@@ -5,8 +5,37 @@
 	import MoodCheck from 'virtual:icons/tabler/mood-check';
 	import Send from 'virtual:icons/tabler/send';
 	import dayjs from 'dayjs';
+	import { supabase } from '$lib/supabase';
+	import { invalidate } from '$app/navigation';
+	import { page } from '$app/state';
 
 	let p: WorkoutComponent = $props();
+
+	async function handleClick() {
+		console.log(
+			'updating id: ',
+			p.id,
+			', (',
+			p.name,
+			') from friend: ',
+			p.isFriend,
+			' to friend=',
+			!p.isFriend
+		);
+		const newIsFriend = !p.isFriend;
+
+		const { error } = await supabase.from('workouts').update({ isFriend: newIsFriend }).eq('id', 1);
+
+		if (error) {
+			console.error('Error updating friend status:', error);
+			return;
+		}
+
+		//retrigger data load
+		await invalidate(page.url.pathname);
+
+		console.log('Updated successfully!');
+	}
 </script>
 
 <div class="w-full flex flex-col items-center">
@@ -25,18 +54,18 @@
 			</div>
 
 			<div class="grow flex justify-center items-center">
-				<!-- XXX reenable friends after the interview is done!!!
-				<div
+				<button
 					class="p-2 {p.isFriend
 						? 'bg-green-100'
 						: 'bg-white'} rounded-md text-xs flex items-center"
+					on:click={handleClick}
 				>
 					{#if p.isFriend}
 						<MoodCheck class="inline mr-2" /><span>Friends</span>
 					{:else}
 						<UserPlus class="inline mr-2" /><span>Add friend</span>
 					{/if}
-				</div> -->
+				</button>
 			</div>
 		</div>
 		<div class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative">
