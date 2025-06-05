@@ -67,7 +67,7 @@
 		{/if}
 	{/each}
 	<!-- navbar compensation -->
-	<NavbarCompensation size="h-28" />
+	<NavbarCompensation />
 </div>
 
 {#if workoutCreationFormVisible}
