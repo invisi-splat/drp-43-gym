@@ -16,7 +16,9 @@
 				<User />
 				<div class="bg-gray-200 w-[80%] flex flex-col items-center justify-center min-w-0">
 					<h2 class="font-bold w-full flex flex-wrap gap-x-1 justify-center items-center" lang="en">
-						<span class="max-w-full inline-block line-clamp-2 hyphens-auto">{p.name}, {p.age}</span>
+						<span class="max-w-full inline-block line-clamp-2 hyphens-auto text-center"
+							>{p.name}, {p.age}</span
+						>
 					</h2>
 					<h3 class="text-xs italic">{p.skill}</h3>
 				</div>
@@ -48,7 +50,7 @@
 					<span>{p.location} @</span>
 					<span class="font-bold">{dayjs(p.dateTime).format('ddd DD/MM, h:mma')}</span>
 				</p>
-				<a class="bg-gray-200 p-1.5 rounded-xl">
+				<a href="/messages/chat" class="bg-gray-200 p-1.5 rounded-xl">
 					<Send />
 				</a>
 			</div>
