@@ -23,7 +23,7 @@
 </script>
 
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100">
-	<h1 class="p-4 font-bold text-2xl">Your workouts</h1>
+	<h1 class="p-4 font-bold text-2xl">Workouts</h1>
 	<div class="space-y-4">
 		{#each data.workouts as workout}
 			<Workout {...workout}></Workout>
