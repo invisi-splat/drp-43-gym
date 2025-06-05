@@ -1,6 +1,7 @@
 import { supabase } from '$lib/supabase';
 import type { Tables } from '$lib/types/supabase';
 import type { PageLoad } from './$types';
+import { workouts } from '$lib/stores/workout';
 
 export const load: PageLoad = async () => {
 	const { data, error } = await supabase
@@ -13,7 +14,7 @@ export const load: PageLoad = async () => {
 	}
 
 	// Map to WorkoutComponent array
-	const workouts: WorkoutComponent[] = data.map((row) => ({
+	const workoutsTemp: WorkoutComponent[] = data.map((row) => ({
 		id: row.id,
 		name: row.name, // Placeholder
 		age: row.age, // Placeholder
@@ -25,5 +26,7 @@ export const load: PageLoad = async () => {
 		dateTime: row.dateTime // Placeholder
 	}));
 
-	return { workouts };
+	workouts.set(workoutsTemp)
+	
+	return { workouts:data };
 };
