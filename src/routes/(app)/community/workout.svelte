@@ -46,7 +46,7 @@
 				<PinFilled class="inline mr-1" />
 				<p class="w-[60%]">
 					<span>{p.location} @</span>
-					<span class="font-bold">{dayjs(p.dateTime).format('ddd DD:MM, h:mma')}</span>
+					<span class="font-bold">{dayjs(p.dateTime).format('ddd DD/MM, h:mma')}</span>
 				</p>
 				<a class="bg-gray-200 p-1.5 rounded-xl">
 					<Send />
