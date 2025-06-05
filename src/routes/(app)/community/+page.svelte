@@ -9,7 +9,9 @@
 
 	let workoutCreationFormVisible = $state(false);
 
-	const showWorkoutCreator = () => {};
+	const showWorkoutCreator = () => {
+		workoutCreationFormVisible = true;
+	};
 
 	const workoutCreatorDismissHandler = () => {
 		workoutCreationFormVisible = false;
