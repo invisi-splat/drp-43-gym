@@ -37,11 +37,6 @@
 				required
 				clearable>Gym</FloatingLabelInput
 			>
-			<datalist id="gymsFound">
-				{#each gymNames as gymName}
-					<option value={gymName}>{gymName}</option>
-				{/each}
-			</datalist>
 
 			<div class="grid grid-cols-[60%_auto] gap-x-3">
 				<Datepicker value={new Date()} class="col-span-1" required />

@@ -3,11 +3,15 @@
 	import FloatingPlus from './floatingPlus.svelte';
 	import WorkoutCreator from './workoutCreator.svelte';
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
-	import { datetime } from 'drizzle-orm/mysql-core';
+	import Header from '$lib/components/header.svelte';
+	import { Input } from 'flowbite-svelte';
+
+	import { gymNames } from '$lib/placeholderData';
 
 	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
 
 	let workoutCreationFormVisible = $state(false);
+	let gymFilterName = $state('');
 
 	const showWorkoutCreator = () => {
 		workoutCreationFormVisible = true;
@@ -54,14 +58,29 @@
 	}
 </script>
 
+{#snippet filter()}
+	<Input
+		placeholder="Filter by gym..."
+		type="text"
+		data={gymNames}
+		class="mb-3 text-base font-normal"
+		clearable
+		bind:value={gymFilterName}
+	></Input>
+{/snippet}
+
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100">
-	<h1 class="p-4 font-bold text-2xl">Workouts</h1>
+	<Header mainText="Workouts" rightSnippet={filter} />
 	{#each Object.entries(groupedWorkouts) as [groupName, workouts]}
 		{#if workouts.length > 0}
 			<h2 class="p-4 font-bold text-xl">{groupName}</h2>
 			<div class="space-y-4">
 				{#each workouts as workout}
-					<Workout {...workout}></Workout>
+					{#if workout.location
+						.toLowerCase()
+						.startsWith(gymFilterName.toLowerCase()) || gymFilterName === ''}
+						<Workout {...workout}></Workout>
+					{/if}
 				{/each}
 			</div>
 		{/if}
