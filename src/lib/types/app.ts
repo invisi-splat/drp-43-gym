@@ -5,9 +5,10 @@ interface WorkoutProps {
 	dateTime: Date;
 }
 
-interface SelfWorkoutComponent extends WorkoutProps {}
+interface SelfWorkoutComponent extends WorkoutProps { }
 
 interface WorkoutComponent extends WorkoutProps {
+	id: bigint;
 	name: string;
 	age: number;
 	skill: string; // TODO change this to an enum of some sort (e.g. novice, experienced, ...)
