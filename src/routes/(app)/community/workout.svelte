@@ -14,9 +14,7 @@
 
 	import { derived } from 'svelte/store';
 	import { workouts } from '$lib/stores/workout';
-	const workout = derived(workouts, $workouts =>
-		$workouts.find(w => w.id === id)
-	);
+	const workout = derived(workouts, ($workouts) => $workouts.find((w) => w.id === id));
 
 	async function handleClick() {
 		if (!$workout) return;
@@ -32,7 +30,10 @@
 		);
 		const newIsFriend = !$workout.isFriend;
 
-		const { error } = await supabase.from('workouts').update({ isFriend: newIsFriend }).eq('id', $workout.id);
+		const { error } = await supabase
+			.from('workouts')
+			.update({ isFriend: newIsFriend })
+			.eq('id', $workout.id);
 
 		if (error) {
 			console.error('Error updating friend status:', error);
@@ -43,11 +44,9 @@
 		await invalidate(page.url.pathname);
 
 		//update the storee
-		workouts.update(ws =>
-			ws.map( w => 
-				w.id === $workout.id ? { ...w, isFriend: newIsFriend } : w
-			)
-		)
+		workouts.update((ws) =>
+			ws.map((w) => (w.id === $workout.id ? { ...w, isFriend: newIsFriend } : w))
+		);
 
 		console.log('Updated successfully!');
 	}
@@ -70,7 +69,7 @@
 
 			<div class="grow flex justify-center items-center">
 				<button
-					class="p-2 {$workout?.isFriend}
+					class="p-2 {$workout?.isFriend
 						? 'bg-green-100'
 						: 'bg-white'} rounded-md text-xs flex items-center"
 					onclick={handleClick}
@@ -85,7 +84,8 @@
 		</div>
 		<div class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative">
 			<h2 class="whitespace-pre font-bold">
-				<span class="text-gray-600">Training</span> <span class="underline">{$workout?.regimen}</span>
+				<span class="text-gray-600">Training</span>
+				<span class="underline">{$workout?.regimen}</span>
 			</h2>
 			<p class="text-[0.65rem] line-clamp-3 hyphens-auto">{$workout?.desc}</p>
 			<div class="text-sm flex justify-between items-center gap-x-1">
