@@ -5,8 +5,51 @@
 	import MoodCheck from 'virtual:icons/tabler/mood-check';
 	import Send from 'virtual:icons/tabler/send';
 	import dayjs from 'dayjs';
+	import { supabase } from '$lib/supabase';
+	import { invalidate } from '$app/navigation';
+	import { page } from '$app/state';
+	import { get } from 'svelte/store';
 
-	let p: WorkoutComponent = $props();
+	const { id } = $props();
+
+	import { derived } from 'svelte/store';
+	import { workouts } from '$lib/stores/workout';
+	const workout = derived(workouts, ($workouts) => $workouts.find((w) => w.id === id));
+
+	async function handleClick() {
+		if (!$workout) return;
+		console.log(
+			'updating id: ',
+			$workout.id,
+			', (',
+			$workout.name,
+			') from friend: ',
+			$workout.isFriend,
+			' to friend=',
+			!$workout.isFriend
+		);
+		const newIsFriend = !$workout.isFriend;
+
+		const { error } = await supabase
+			.from('workouts')
+			.update({ isFriend: newIsFriend })
+			.eq('id', $workout.id);
+
+		if (error) {
+			console.error('Error updating friend status:', error);
+			return;
+		}
+
+		//retrigger data load
+		await invalidate(page.url.pathname);
+
+		//update the storee
+		workouts.update((ws) =>
+			ws.map((w) => (w.id === $workout.id ? { ...w, isFriend: newIsFriend } : w))
+		);
+
+		console.log('Updated successfully!');
+	}
 </script>
 
 <div class="w-full flex flex-col items-center">
@@ -17,38 +60,39 @@
 				<div class="bg-gray-200 w-[80%] flex flex-col items-center justify-center min-w-0">
 					<h2 class="font-bold w-full flex flex-wrap gap-x-1 justify-center items-center" lang="en">
 						<span class="max-w-full inline-block line-clamp-2 hyphens-auto text-center"
-							>{p.name}, {p.age}</span
+							>{$workout?.name}, {$workout?.age}</span
 						>
 					</h2>
-					<h3 class="text-xs italic">{p.skill}</h3>
+					<h3 class="text-xs italic">{$workout?.skill}</h3>
 				</div>
 			</div>
 
 			<div class="grow flex justify-center items-center">
-				<!-- XXX reenable friends after the interview is done!!!
-				<div
-					class="p-2 {p.isFriend
+				<button
+					class="p-2 {$workout?.isFriend
 						? 'bg-green-100'
 						: 'bg-white'} rounded-md text-xs flex items-center"
+					onclick={handleClick}
 				>
-					{#if p.isFriend}
+					{#if $workout?.isFriend}
 						<MoodCheck class="inline mr-2" /><span>Friends</span>
 					{:else}
 						<UserPlus class="inline mr-2" /><span>Add friend</span>
 					{/if}
-				</div> -->
+				</button>
 			</div>
 		</div>
 		<div class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative">
 			<h2 class="whitespace-pre font-bold">
-				<span class="text-gray-600">Training</span> <span class="underline">{p.regimen}</span>
+				<span class="text-gray-600">Training</span>
+				<span class="underline">{$workout?.regimen}</span>
 			</h2>
-			<p class="text-[0.65rem] line-clamp-3 hyphens-auto">{p.desc}</p>
+			<p class="text-[0.65rem] line-clamp-3 hyphens-auto">{$workout?.desc}</p>
 			<div class="text-sm flex justify-between items-center gap-x-1">
 				<PinFilled class="inline mr-1" />
 				<p class="w-[60%]">
-					<span>{p.location} @</span>
-					<span class="font-bold">{dayjs(p.dateTime).format('ddd DD/MM, h:mma')}</span>
+					<span>{$workout?.location} @</span>
+					<span class="font-bold">{dayjs($workout?.dateTime).format('ddd DD/MM, h:mma')}</span>
 				</p>
 				<a href="/messages/chat" class="bg-gray-200 p-1.5 rounded-xl">
 					<Send />
