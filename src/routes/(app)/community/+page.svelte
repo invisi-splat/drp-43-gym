@@ -5,13 +5,13 @@
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 	import Header from '$lib/components/header.svelte';
 	import { Input } from 'flowbite-svelte';
-	import { supabase } from  '$lib/supabase';
-	import {invalidate} from '$app/navigation';
-	import {page} from '$app/state';
+	import { supabase } from '$lib/supabase';
+	import { invalidate } from '$app/navigation';
+	import { page } from '$app/state';
 
 	import { gymNames } from '$lib/placeholderData';
 	import { workouts } from '$lib/stores/workout';
-	import {derived} from 'svelte/store';
+	import { derived } from 'svelte/store';
 
 	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
 	workouts.set(data.workouts);
@@ -27,11 +27,19 @@
 		workoutCreationFormVisible = false;
 	};
 
-	const workoutCreatorSubmitHandler = async (newWorkoutData) => {
+	// FIXME this is a slight hack; ideally, our front-end component props and our
+	// back-end DB schemata should not share the same type (we should have an interface
+	// somewhere that converts between the two). Here we are directly using the front-end
+	// type as the type for the back-end schema.
+	const workoutCreatorSubmitHandler = async (newWorkoutData: WorkoutComponent) => {
 		console.log('Submitting new workout:', newWorkoutData);
 
 		// Insert to Supabase
-		const { data, error } = await supabase.from('workouts').insert([newWorkoutData]).select().single();
+		const { data, error } = await supabase
+			.from('workouts')
+			.insert([newWorkoutData])
+			.select()
+			.single();
 
 		if (error) {
 			console.error('Error inserting workout:', error);
@@ -42,7 +50,7 @@
 
 		// update the workouts store reactively
 		await invalidate(page.url.pathname);
-		workouts.update((current) => [...current,data]);
+		workouts.update((current) => [...current, data]);
 		workoutCreationFormVisible = false;
 	};
 
@@ -77,7 +85,7 @@
 				groups['Later'].push(workout);
 			}
 		}
-		return groups
+		return groups;
 	});
 </script>
 

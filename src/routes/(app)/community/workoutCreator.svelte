@@ -7,20 +7,24 @@
 
 	let { dismissCallback, submitCallback } = $props();
 
+	// svelte-ignore non_reactive_update
 	let selectedGym = '';
 	let workoutDate = new Date();
+	// svelte-ignore non_reactive_update
 	let workoutTime = '';
+	// svelte-ignore non_reactive_update
 	let selectedRegimen = '';
+	// svelte-ignore non_reactive_update
 	let description = '';
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: SubmitEvent) => {
 		// data validation stuff...
 		e.preventDefault();
 
 		//build dateTime from date + time string
 		const [hours, minutes] = workoutTime.split(':').map(Number);
-		const dateTime = new Date(workoutDate)
-		dateTime.setHours(hours, minutes)
+		const dateTime = new Date(workoutDate);
+		dateTime.setHours(hours, minutes);
 
 		submitCallback({
 			location: selectedGym,
@@ -52,7 +56,7 @@
 		<hr class="text-gray-200" />
 		<form class="space-y-1" onsubmit={handleSubmit}>
 			<FloatingLabelInput
-				bind:value = {selectedGym}
+				bind:value={selectedGym}
 				variant="outlined"
 				type="text"
 				data={gymNames}
@@ -63,8 +67,12 @@
 
 			<div class="grid grid-cols-[60%_auto] gap-x-3">
 				<Datepicker value={workoutDate} class="col-span-1" required />
-				<FloatingLabelInput bind:value={workoutTime} class="col-span-1" variant="outlined" type="time" required
-					>Time</FloatingLabelInput
+				<FloatingLabelInput
+					bind:value={workoutTime}
+					class="col-span-1"
+					variant="outlined"
+					type="time"
+					required>Time</FloatingLabelInput
 				>
 			</div>
 
@@ -77,7 +85,9 @@
 				required
 				clearable>Workout regimen</FloatingLabelInput
 			>
-			<Textarea bind:value={description} placeholder="Description" class="mb-3" clearable>Description</Textarea>
+			<Textarea bind:value={description} placeholder="Description" class="mb-3" clearable
+				>Description</Textarea
+			>
 
 			<div class="w-full flex justify-center items-center">
 				<input
