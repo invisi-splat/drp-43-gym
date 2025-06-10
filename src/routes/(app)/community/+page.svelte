@@ -12,6 +12,11 @@
 	import { gymNames } from '$lib/placeholderData';
 	import { workouts } from '$lib/stores/workout';
 	import { derived } from 'svelte/store';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		console.log($workouts);
+	});
 
 	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
 	workouts.set(data.workouts);
@@ -107,9 +112,7 @@
 			<h2 class="p-4 font-bold text-xl">{groupName}</h2>
 			<div class="space-y-4">
 				{#each workouts as workout}
-					{#if workout.location
-						.toLowerCase()
-						.startsWith(gymFilterName.toLowerCase()) || gymFilterName === ''}
+					{#if true}
 						<Workout {...workout}></Workout>
 					{/if}
 				{/each}
