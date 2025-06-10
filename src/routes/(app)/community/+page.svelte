@@ -39,6 +39,7 @@
 	const workoutCreatorSubmitHandler = async (newWorkoutData: WorkoutComponent) => {
 		console.log('Submitting new workout:', newWorkoutData);
 
+		// XXX currently broken!
 		// Insert to Supabase
 		const { data, error } = await supabase
 			.from('workouts')
@@ -112,7 +113,9 @@
 			<h2 class="p-4 font-bold text-xl">{groupName}</h2>
 			<div class="space-y-4">
 				{#each workouts as workout}
-					{#if true}
+					{#if workout.location
+						.toLowerCase()
+						.startsWith(gymFilterName.toLowerCase()) || gymFilterName === ''}
 						<Workout {...workout}></Workout>
 					{/if}
 				{/each}
