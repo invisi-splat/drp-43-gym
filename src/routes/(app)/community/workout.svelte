@@ -68,6 +68,14 @@
 			</div>
 
 			<div class="grow flex justify-center items-center">
+				<PinFilled class="inline mr-1" />
+				<p class="w-[80%] text-xs">
+					<span>{$workout?.location} @</span>
+					<span class="font-bold">{dayjs($workout?.dateTime).format('ddd DD/MM, h:mma')}</span>
+				</p>
+			</div>
+			<!-- DO NOT NEED FRIENDS RIGHT NOW, CAN BE FUTURE USER STORY
+			<div class="grow flex justify-center items-center">
 				<button
 					class="p-2 {$workout?.isFriend
 						? 'bg-green-100'
@@ -81,23 +89,24 @@
 					{/if}
 				</button>
 			</div>
+		-->
 		</div>
-		<div class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative">
-			<h2 class="whitespace-pre font-bold">
+		<a
+			href="/community/workout/{id}"
+			class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative active:bg-gray-200"
+		>
+			<h2 class="whitespace-pre font-bold text-xl">
 				<span class="text-gray-600">Training</span>
 				<span class="underline">{$workout?.regimen}</span>
 			</h2>
-			<p class="text-[0.65rem] line-clamp-3 hyphens-auto">{$workout?.desc}</p>
+			<p class="line-clamp-4 hyphens-auto text-xs">{$workout?.desc}</p>
 			<div class="text-sm flex justify-between items-center gap-x-1">
-				<PinFilled class="inline mr-1" />
-				<p class="w-[60%]">
-					<span>{$workout?.location} @</span>
-					<span class="font-bold">{dayjs($workout?.dateTime).format('ddd DD/MM, h:mma')}</span>
-				</p>
+				<!--  COMMENTING MSG-ING FOR NOW, add back later ?
 				<a href="/messages/chat" class="bg-gray-200 p-1.5 rounded-xl">
 					<Send />
 				</a>
+				-->
 			</div>
-		</div>
+		</a>
 	</div>
 </div>

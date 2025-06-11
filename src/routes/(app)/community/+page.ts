@@ -1,12 +1,13 @@
 import { supabase } from '$lib/supabase';
-import type { Tables } from '$lib/types/supabase';
 import type { PageLoad } from './$types';
 import { workouts } from '$lib/stores/workout';
 
 export const load: PageLoad = async () => {
 	const { data, error } = await supabase
 		.from('workouts')
-		.select('id, name, age, skill, "isFriend", regimen, "desc", location, "dateTime"');
+		.select(
+			'id, desc, dateTime, isFriend, users ( name, age, sex, skill ), regimens ( name ), gyms ( name )'
+		);
 
 	if (error) {
 		console.error('Error fetching workouts:', error);
@@ -16,17 +17,17 @@ export const load: PageLoad = async () => {
 	// Map to WorkoutComponent array
 	const workoutsTemp: WorkoutComponent[] = data.map((row) => ({
 		id: row.id,
-		name: row.name, // Placeholder
-		age: row.age, // Placeholder
-		skill: row.skill, // Placeholder
-		isFriend: row.isFriend, // Placeholder
-		regimen: row.regimen, // Placeholder
+		name: row.users.name,
+		age: row.users.age,
+		skill: row.users.skill,
+		isFriend: row.isFriend,
+		regimen: row.regimens.name,
 		desc: row.desc,
-		location: row.location, // Placeholder
-		dateTime: row.dateTime // Placeholder
+		location: row.gyms.name,
+		dateTime: row.dateTime
 	}));
 
-	workouts.set(workoutsTemp)
-	
-	return { workouts:data };
+	workouts.set(workoutsTemp);
+
+	return { workouts: workoutsTemp };
 };

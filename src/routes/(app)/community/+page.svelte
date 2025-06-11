@@ -12,6 +12,7 @@
 	import { gymNames } from '$lib/placeholderData';
 	import { workouts } from '$lib/stores/workout';
 	import { derived } from 'svelte/store';
+	import { onMount } from 'svelte';
 
 	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
 	workouts.set(data.workouts);
@@ -34,6 +35,7 @@
 	const workoutCreatorSubmitHandler = async (newWorkoutData: WorkoutComponent) => {
 		console.log('Submitting new workout:', newWorkoutData);
 
+		// XXX currently broken!
 		// Insert to Supabase
 		const { data, error } = await supabase
 			.from('workouts')
@@ -94,7 +96,7 @@
 		placeholder="Filter by gym..."
 		type="text"
 		data={gymNames}
-		class="mb-3 text-base font-normal"
+		class="text-base font-normal"
 		clearable
 		bind:value={gymFilterName}
 	></Input>
