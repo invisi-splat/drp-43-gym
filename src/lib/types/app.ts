@@ -16,3 +16,9 @@ interface WorkoutComponent extends WorkoutProps {
 	skill: 'novice' | 'experienced' | 'intermediate' | null;
 	isFriend: boolean;
 }
+
+interface ExerciseComponent {
+	id: number;
+	name: string;
+	description: string | null;
+}
