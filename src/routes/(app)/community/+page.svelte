@@ -14,10 +14,6 @@
 	import { derived } from 'svelte/store';
 	import { onMount } from 'svelte';
 
-	onMount(() => {
-		console.log($workouts);
-	});
-
 	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
 	workouts.set(data.workouts);
 
