@@ -91,12 +91,15 @@
 			</div>
 		-->
 		</div>
-		<div class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative">
+		<a
+			href="/community/workout/{id}"
+			class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative active:bg-gray-200"
+		>
 			<h2 class="whitespace-pre font-bold text-xl">
 				<span class="text-gray-600">Training</span>
 				<span class="underline">{$workout?.regimen}</span>
 			</h2>
-			<p class="line-clamp-3 hyphens-auto text-xs">{$workout?.desc}</p>
+			<p class="line-clamp-4 hyphens-auto text-xs">{$workout?.desc}</p>
 			<div class="text-sm flex justify-between items-center gap-x-1">
 				<!--  COMMENTING MSG-ING FOR NOW, add back later ?
 				<a href="/messages/chat" class="bg-gray-200 p-1.5 rounded-xl">
@@ -104,6 +107,6 @@
 				</a>
 				-->
 			</div>
-		</div>
+		</a>
 	</div>
 </div>
