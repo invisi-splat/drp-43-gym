@@ -100,7 +100,7 @@
 		placeholder="Filter by gym..."
 		type="text"
 		data={gymNames}
-		class="mb-3 text-base font-normal"
+		class="text-base font-normal"
 		clearable
 		bind:value={gymFilterName}
 	></Input>
