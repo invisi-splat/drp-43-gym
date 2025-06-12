@@ -11,7 +11,7 @@
 </script>
 
 <h1
-	class="z-50 top-0 py-2 px-4 font-bold text-2xl mb-4 bg-gray-200 h-auto sticky shadow-sm/50 flex items-center gap-x-4"
+	class="z-50 top-0 py-2 px-4 font-bold text-2xl bg-gray-200 h-auto sticky shadow-sm/50 flex items-center gap-x-4"
 >
 	{@render leftSnippet?.()}
 	<p class="py-2">{mainText}</p>
