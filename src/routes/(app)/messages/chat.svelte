@@ -3,7 +3,7 @@
 </script>
 
 <a
-	href="/messages/chat"
+	href="/messages/chat/1"
 	class="h-18 grid grid-cols-[20%_auto] active:bg-gray-200 transition-colors select-none py-2"
 >
 	<div class="col-span-1 flex justify-center items-center">

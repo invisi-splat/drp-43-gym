@@ -1,4 +1,5 @@
 type Timestampz = string;
+type Skill = 'novice' | 'experienced' | 'intermediate' | null;
 
 interface WorkoutProps {
 	regimen: string;
@@ -14,7 +15,8 @@ interface WorkoutComponent extends WorkoutProps {
 	id: number;
 	name: string;
 	age: number;
-	skill: 'novice' | 'experienced' | 'intermediate' | null;
+	user_id: number;
+	skill: Skill;
 	isFriend: boolean;
 }
 
@@ -22,4 +24,12 @@ interface ExerciseComponent {
 	id: number;
 	name: string;
 	description: string | null;
+}
+
+interface UserProps {
+	id: number;
+	name: string;
+	age: number;
+	sex: string;
+	skill: Skill;
 }

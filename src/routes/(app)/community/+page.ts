@@ -6,7 +6,7 @@ const getWorkouts = async (): Promise<WorkoutComponent[]> => {
 	const { data, error } = await supabase
 		.from('workouts')
 		.select(
-			'id, desc, dateTime, isFriend, users ( name, age, sex, skill ), regimens ( name ), gyms ( name )'
+			'id, desc, dateTime, isFriend, users ( id, name, age, sex, skill ), regimens ( name ), gyms ( name )'
 		);
 
 	if (error) {
@@ -19,6 +19,7 @@ const getWorkouts = async (): Promise<WorkoutComponent[]> => {
 		name: row.users.name,
 		age: row.users.age,
 		skill: row.users.skill,
+		user_id: row.users.id,
 		isFriend: row.isFriend,
 		regimen: row.regimens.name,
 		regimenDesc: null, // Assuming regimen description is not needed here
