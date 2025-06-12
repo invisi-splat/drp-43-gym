@@ -22,7 +22,7 @@
 {/snippet}
 
 <div
-	class="z-20 top-16 sticky flex gap-x-2 p-2 items-center justify-center bg-gray-300 shadow-sm shadow-black/50
+	class="z-20 top-16 sticky flex gap-x-2 p-2 items-center overflow-x-scroll justify-start bg-gray-300 shadow-sm shadow-black/50
   "
 >
 	{@render button(null)}
