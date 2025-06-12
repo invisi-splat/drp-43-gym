@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
+	import Send from 'virtual:icons/tabler/send';
 	import ArrowBackUp from 'virtual:icons/tabler/arrow-back-up';
 	import type { PageProps } from './$types';
 	import dayjs from 'dayjs';
@@ -28,6 +29,11 @@
 		<p class="py-2 px-3 border-l-4 border-gray-400">
 			{data.workout.desc!}
 		</p>
+		<div class="flex w-full justify-center gap-x-2">
+			<a href="/messages/chat" class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl">
+				<span class="pr-2">Message</span><Send class="inline-block" />
+			</a>
+		</div>
 		<hr class="border-0 bg-gray-400 h-0.5 my-6" />
 		<h1 class="text-xl font-bold">What to know</h1>
 		<p class="text-lg p-2 bg-gray-200 rounded-lg">

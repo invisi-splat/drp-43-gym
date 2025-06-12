@@ -6,4 +6,4 @@
 
 {@render children()}
 
-<Navbar/>
+<Navbar />

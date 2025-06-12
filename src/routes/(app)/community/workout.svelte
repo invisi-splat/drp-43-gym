@@ -53,11 +53,14 @@
 </script>
 
 <div class="w-full flex flex-col items-center">
-	<div class="rounded-2xl bg-gray-300 p-2 w-[90%] grid grid-cols-[40%_auto] gap-x-2">
+	<div class="rounded-2xl bg-gray-300 p-2 w-[90%] grid grid-cols-[46%_auto] gap-x-2">
 		<div class="col-span-1 flex flex-col gap-y-1">
-			<div class="rounded-2xl bg-gray-200 flex justify-center items-center p-1 gap-x-1 min-w-0">
+			<a
+				href="/messages/chat"
+				class="rounded-2xl bg-gray-200 active:bg-gray-400 flex justify-center items-center p-1 gap-x-1 min-w-0"
+			>
 				<User />
-				<div class="bg-gray-200 w-[80%] flex flex-col items-center justify-center min-w-0">
+				<div class="w-[80%] flex flex-col items-center justify-center min-w-0">
 					<h2 class="font-bold w-full flex flex-wrap gap-x-1 justify-center items-center" lang="en">
 						<span class="max-w-full inline-block line-clamp-2 hyphens-auto text-center"
 							>{$workout?.name}, {$workout?.age}</span
@@ -65,7 +68,7 @@
 					</h2>
 					<h3 class="text-xs italic">{$workout?.skill}</h3>
 				</div>
-			</div>
+			</a>
 
 			<div class="grow flex justify-center items-center">
 				<PinFilled class="inline mr-1" />
@@ -91,22 +94,17 @@
 			</div>
 		-->
 		</div>
-		<a
-			href="/community/workout/{id}"
-			class="col-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative active:bg-gray-200"
-		>
-			<h2 class="whitespace-pre font-bold text-xl">
-				<span class="text-gray-600">Training</span>
-				<span class="underline">{$workout?.regimen}</span>
-			</h2>
-			<p class="line-clamp-4 hyphens-auto text-xs">{$workout?.desc}</p>
-			<div class="text-sm flex justify-between items-center gap-x-1">
-				<!--  COMMENTING MSG-ING FOR NOW, add back later ?
-				<a href="/messages/chat" class="bg-gray-200 p-1.5 rounded-xl">
-					<Send />
-				</a>
-				-->
-			</div>
-		</a>
+		<div class="col-span-1 grid grid-rows-[100%_auto] gap-y-2">
+			<a
+				href="/community/workout/{id}"
+				class="row-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative active:bg-gray-200"
+			>
+				<h2 class="whitespace-pre font-bold text-xl">
+					<span class="text-gray-600">Training</span>
+					<span class="underline">{$workout?.regimen}</span>
+				</h2>
+				<p class="line-clamp-1 hyphens-auto text-xs">{$workout?.desc}</p>
+			</a>
+		</div>
 	</div>
 </div>
