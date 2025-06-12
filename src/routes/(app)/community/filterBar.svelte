@@ -12,8 +12,9 @@
 		onclick={() => {
 			selectedRegimen = regimen;
 		}}
-		class="px-3 py-1 text-lg rounded-md {selectedRegimen === regimen
-			? 'bg-blue-300'
+		class="px-3 py-1 text-lg rounded-md {regimen === null ? 'italic' : ''} {selectedRegimen ===
+		regimen
+			? 'bg-blue-300 font-bold'
 			: 'bg-gray-100'} active:bg-gray-300 transition-all"
 	>
 		{regimen === null ? 'All' : regimen}
