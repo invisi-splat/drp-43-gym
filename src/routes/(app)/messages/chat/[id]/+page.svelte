@@ -29,7 +29,7 @@
 
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100 relative pb-4">
 	<Header leftSnippet={returnButton} mainText="{data.userProps.name}, {data.userProps.age}" />
-	<div class="space-y-5">
+	<div class="mt-4 space-y-5">
 		{#each messages as message}
 			<Message text={message.text} selfSent={message.selfSent} />
 		{/each}

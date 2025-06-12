@@ -22,7 +22,7 @@
 		leftSnippet={returnButton}
 		mainText={dayjs(data.workout.dateTime!).format('ddd DD/MM, h:mma')}
 	/>
-	<div class="px-4 py-2 space-y-4">
+	<div class="mt-4 px-4 py-2 space-y-4">
 		<p class="text-xl">
 			{data.workout.name!} wants to train <span class="font-bold">{data.workout.regimen!}</span> at {data
 				.workout.location!}.
