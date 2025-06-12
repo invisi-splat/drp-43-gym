@@ -9,6 +9,16 @@
 	const longMessage = 'hello how are you doing';
 
 	let { data }: PageProps = $props();
+	let messages = $state([
+		{ text: longMessage, selfSent: true },
+		{ text: 'great', selfSent: false },
+		{ text: 'do you want to go gym???', selfSent: false },
+		{ text: "yeah bro!!! let's go gym!!! yeah gym!!!", selfSent: true }
+	]);
+
+	const inputBarSubmitCallback = (text: string) => {
+		messages.push({ text, selfSent: true });
+	};
 </script>
 
 {#snippet returnButton()}
@@ -20,12 +30,11 @@
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100 relative pb-4">
 	<Header leftSnippet={returnButton} mainText="{data.userProps.name}, {data.userProps.age}" />
 	<div class="space-y-5">
-		<Message text={longMessage} selfSent />
-		<Message text="great" />
-		<Message text="do you want to go gym???" />
-		<Message text="yeah bro!!! let's go gym!!! yeah gym!!!" selfSent />
+		{#each messages as message}
+			<Message text={message.text} selfSent={message.selfSent} />
+		{/each}
 	</div>
 	<NavbarCompensation size="h-32" />
 </div>
 
-<InputBar />
+<InputBar submitCallback={inputBarSubmitCallback} />
