@@ -31,7 +31,10 @@
 			{data.workout.desc!}
 		</p>
 		<div class="flex w-full justify-center gap-x-2">
-			<a href="/messages/chat" class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl">
+			<a
+				href="/messages/chat/{data.workout.user_id!}"
+				class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl"
+			>
 				<span class="pr-2">Message</span><Send class="inline-block" />
 			</a>
 		</div>
