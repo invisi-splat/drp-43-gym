@@ -7,6 +7,7 @@
 
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100 relative pb-4">
 	<Header mainText="Messages" />
+	<div class="h-4"></div>
 	<Chat />
 	{#each { length: 10 } as _}
 		<ChatDivider />

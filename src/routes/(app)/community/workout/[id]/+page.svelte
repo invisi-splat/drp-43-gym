@@ -6,6 +6,7 @@
 	import dayjs from 'dayjs';
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 	import Exercise from './exercise.svelte';
+	import { marked } from 'marked';
 
 	let { data }: PageProps = $props();
 </script>
@@ -21,7 +22,7 @@
 		leftSnippet={returnButton}
 		mainText={dayjs(data.workout.dateTime!).format('ddd DD/MM, h:mma')}
 	/>
-	<div class="px-4 py-2 space-y-4">
+	<div class="mt-4 px-4 py-2 space-y-4">
 		<p class="text-xl">
 			{data.workout.name!} wants to train <span class="font-bold">{data.workout.regimen!}</span> at {data
 				.workout.location!}.
@@ -30,22 +31,17 @@
 			{data.workout.desc!}
 		</p>
 		<div class="flex w-full justify-center gap-x-2">
-			<a href="/messages/chat" class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl">
+			<a
+				href="/messages/chat/{data.workout.user_id!}"
+				class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl"
+			>
 				<span class="pr-2">Message</span><Send class="inline-block" />
 			</a>
 		</div>
 		<hr class="border-0 bg-gray-400 h-0.5 my-6" />
 		<h1 class="text-xl font-bold">What to know</h1>
 		<p class="text-lg p-2 bg-gray-200 rounded-lg">
-			The legs are powered by several major muscle groups: the <span class="italic font-bold"
-				>quadriceps</span
-			>
-			at the front of the thigh,
-			<span class="italic font-bold">hamstrings</span> at the back,
-			<span class="italic font-bold">glutes</span>
-			in the hips, and the
-			<span class="italic font-bold">calves</span> below the knee. Strengthening these muscles improves
-			balance, mobility, and overall athleticism.
+			{@html marked.parse(data.workout.regimenDesc!)}
 		</p>
 
 		<h2 class="text-xl font-bold">Exercise routine suggestions</h2>

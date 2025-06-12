@@ -56,7 +56,7 @@
 	<div class="rounded-2xl bg-gray-300 p-2 w-[90%] grid grid-cols-[46%_auto] gap-x-2">
 		<div class="col-span-1 flex flex-col gap-y-1">
 			<a
-				href="/messages/chat"
+				href="/messages/chat/{$workout?.user_id}"
 				class="rounded-2xl bg-gray-200 active:bg-gray-400 flex justify-center items-center p-1 gap-x-1 min-w-0"
 			>
 				<User />
@@ -99,11 +99,11 @@
 				href="/community/workout/{id}"
 				class="row-span-1 rounded-2xl bg-white px-3 py-1 space-y-1 relative active:bg-gray-200"
 			>
-				<h2 class="whitespace-pre font-bold text-xl">
+				<h2 class="whitespace-pre font-bold text-lg">
 					<span class="text-gray-600">Training</span>
 					<span class="underline">{$workout?.regimen}</span>
 				</h2>
-				<p class="line-clamp-1 hyphens-auto text-xs">{$workout?.desc}</p>
+				<p class="line-clamp-2 hyphens-auto text-xs">{$workout?.desc}</p>
 			</a>
 		</div>
 	</div>

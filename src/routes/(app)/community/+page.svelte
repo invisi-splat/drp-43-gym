@@ -4,6 +4,8 @@
 	import WorkoutCreator from './workoutCreator.svelte';
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 	import Header from '$lib/components/header.svelte';
+	import FilterBar from './filterBar.svelte';
+
 	import { Input } from 'flowbite-svelte';
 	import { supabase } from '$lib/supabase';
 	import { invalidate } from '$app/navigation';
@@ -12,13 +14,13 @@
 	import { gymNames } from '$lib/placeholderData';
 	import { workouts } from '$lib/stores/workout';
 	import { derived } from 'svelte/store';
-	import { onMount } from 'svelte';
 
 	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
 	workouts.set(data.workouts);
 
 	let workoutCreationFormVisible = $state(false);
 	let gymFilterName = $state('');
+	let selectedRegimen: string | null = $state(null);
 
 	const showWorkoutCreator = () => {
 		workoutCreationFormVisible = true;
@@ -104,14 +106,15 @@
 
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100">
 	<Header mainText="Workouts" rightSnippet={filter} />
+	<FilterBar bind:selectedRegimen regimens={data.regimens} />
 	{#each Object.entries($groupedWorkouts) as [groupName, workouts]}
 		{#if workouts.length > 0}
 			<h2 class="p-4 font-bold text-xl">{groupName}</h2>
 			<div class="space-y-4">
 				{#each workouts as workout}
-					{#if workout.location
+					{#if (workout.location
 						.toLowerCase()
-						.startsWith(gymFilterName.toLowerCase()) || gymFilterName === ''}
+						.startsWith(gymFilterName.toLowerCase()) || gymFilterName === '') && (selectedRegimen === null || workout.regimen === selectedRegimen)}
 						<Workout {...workout}></Workout>
 					{/if}
 				{/each}
@@ -126,6 +129,8 @@
 	<WorkoutCreator
 		dismissCallback={workoutCreatorDismissHandler}
 		submitCallback={workoutCreatorSubmitHandler}
+		gyms={data.gyms}
+		regimens={data.regimens}
 	/>
 {/if}
 

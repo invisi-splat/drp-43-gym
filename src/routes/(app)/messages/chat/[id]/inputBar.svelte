@@ -1,12 +1,20 @@
 <script lang="ts">
 	import { Input } from 'flowbite-svelte';
 
+	interface Props {
+		submitCallback: (text: string) => void;
+	}
+
 	let inputText = $state('');
 
 	const submitHandler = (e: SubmitEvent) => {
-		inputText = '';
 		e.preventDefault();
+
+		submitCallback(inputText);
+		inputText = '';
 	};
+
+	let { submitCallback }: Props = $props();
 </script>
 
 <form

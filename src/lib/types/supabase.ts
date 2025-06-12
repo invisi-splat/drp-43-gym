@@ -80,14 +80,17 @@ export type Database = {
       }
       regimens: {
         Row: {
+          description: string | null
           id: number
           name: string
         }
         Insert: {
+          description?: string | null
           id?: number
           name: string
         }
         Update: {
+          description?: string | null
           id?: number
           name?: string
         }
