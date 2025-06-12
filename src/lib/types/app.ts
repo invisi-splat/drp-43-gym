@@ -1,7 +1,8 @@
 type Timestampz = string;
 
 interface WorkoutProps {
-	regimen: string; // TODO change this to an enum of some sort (e.g. legs, chest, back, ...)
+	regimen: string;
+	regimenDesc: string | null;
 	desc: string | null;
 	location: string;
 	dateTime: Timestampz;

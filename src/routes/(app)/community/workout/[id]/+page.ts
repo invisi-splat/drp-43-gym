@@ -14,7 +14,7 @@ const loadWorkout = async (
 	const { data, error } = await supabase
 		.from('workouts')
 		.select(
-			'id, desc, dateTime, isFriend, users ( name, age, sex, skill ), regimens ( id, name ), gyms ( name )'
+			'id, desc, dateTime, isFriend, users ( name, age, sex, skill ), regimens ( id, name, description ), gyms ( name )'
 		)
 		.eq('id', id)
 		.single();
@@ -31,6 +31,7 @@ const loadWorkout = async (
 		skill: data.users.skill,
 		isFriend: data.isFriend,
 		regimen: data.regimens.name,
+		regimenDesc: data.regimens.description,
 		desc: data.desc,
 		location: data.gyms.name,
 		dateTime: data.dateTime

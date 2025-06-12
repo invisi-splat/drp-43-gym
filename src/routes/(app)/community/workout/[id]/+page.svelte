@@ -6,6 +6,7 @@
 	import dayjs from 'dayjs';
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 	import Exercise from './exercise.svelte';
+	import { marked } from 'marked';
 
 	let { data }: PageProps = $props();
 </script>
@@ -37,15 +38,7 @@
 		<hr class="border-0 bg-gray-400 h-0.5 my-6" />
 		<h1 class="text-xl font-bold">What to know</h1>
 		<p class="text-lg p-2 bg-gray-200 rounded-lg">
-			The legs are powered by several major muscle groups: the <span class="italic font-bold"
-				>quadriceps</span
-			>
-			at the front of the thigh,
-			<span class="italic font-bold">hamstrings</span> at the back,
-			<span class="italic font-bold">glutes</span>
-			in the hips, and the
-			<span class="italic font-bold">calves</span> below the knee. Strengthening these muscles improves
-			balance, mobility, and overall athleticism.
+			{@html marked.parse(data.workout.regimenDesc!)}
 		</p>
 
 		<h2 class="text-xl font-bold">Exercise routine suggestions</h2>

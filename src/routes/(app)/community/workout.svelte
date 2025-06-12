@@ -103,7 +103,7 @@
 					<span class="text-gray-600">Training</span>
 					<span class="underline">{$workout?.regimen}</span>
 				</h2>
-				<p class="line-clamp-1 hyphens-auto text-xs">{$workout?.desc}</p>
+				<p class="line-clamp-2 hyphens-auto text-xs">{$workout?.desc}</p>
 			</a>
 		</div>
 	</div>
