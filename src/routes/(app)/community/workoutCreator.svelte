@@ -3,9 +3,7 @@
 	import { fade, scale } from 'svelte/transition';
 	import { FloatingLabelInput, Textarea, Datepicker } from 'flowbite-svelte';
 
-	import { gymNames, workoutRegimens } from '$lib/placeholderData';
-
-	let { dismissCallback, submitCallback } = $props();
+	let { dismissCallback, submitCallback, gyms, regimens } = $props();
 
 	// svelte-ignore non_reactive_update
 	let selectedGym = '';
@@ -26,6 +24,18 @@
 		const dateTime = new Date(workoutDate);
 		dateTime.setHours(hours, minutes);
 
+		console.log(gyms, regimens);
+
+		if (!gyms.includes(selectedGym)) {
+			alert('Please select a valid gym.');
+			return;
+		}
+
+		if (!regimens.includes(selectedRegimen)) {
+			alert('Please select a valid workout regimen.');
+			return;
+		}
+
 		submitCallback({
 			location: selectedGym,
 			dateTime: dateTime.toISOString(),
@@ -34,7 +44,7 @@
 			isFriend: false,
 			name: 'Me', // placeholder user profile
 			age: 25, // placeholder user profile
-			skill: 'intermediate' // placeholder user profile
+			skill: 'novice' // placeholder user profile
 		});
 	};
 </script>
@@ -59,7 +69,7 @@
 				bind:value={selectedGym}
 				variant="outlined"
 				type="text"
-				data={gymNames}
+				data={gyms}
 				class="mb-3"
 				required
 				clearable>Gym</FloatingLabelInput
@@ -80,7 +90,7 @@
 				bind:value={selectedRegimen}
 				variant="outlined"
 				type="text"
-				data={workoutRegimens}
+				data={regimens}
 				class="mb-3"
 				required
 				clearable>Workout regimen</FloatingLabelInput

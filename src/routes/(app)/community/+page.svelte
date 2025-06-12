@@ -126,6 +126,8 @@
 	<WorkoutCreator
 		dismissCallback={workoutCreatorDismissHandler}
 		submitCallback={workoutCreatorSubmitHandler}
+		gyms={data.gyms}
+		regimens={data.regimens}
 	/>
 {/if}
 
