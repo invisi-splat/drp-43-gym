@@ -7,7 +7,8 @@ const getWorkouts = async (): Promise<WorkoutComponent[]> => {
 		.from('workouts')
 		.select(
 			'id, desc, dateTime, isFriend, users ( id, name, age, sex, skill ), regimens ( name ), gyms ( name )'
-		);
+		)
+		.order('dateTime', { ascending: true });
 
 	if (error) {
 		throw new Error('Failed to load workouts data');
