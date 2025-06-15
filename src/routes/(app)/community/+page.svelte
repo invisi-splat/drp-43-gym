@@ -37,11 +37,43 @@
 	const workoutCreatorSubmitHandler = async (newWorkoutData: WorkoutComponent) => {
 		console.log('Submitting new workout:', newWorkoutData);
 
-		// XXX currently broken!
-		// Insert to Supabase
+		// Get regimen ID from regimen name
+		const getRegimenId = async (): Promise<number> => {
+			const { data, error } = await supabase
+				.from('regimens')
+				.select('id')
+				.eq('name', newWorkoutData.regimen)
+				.single();
+
+			if (error) {
+				throw new Error('Error fetching regimen ID:', error);
+			}
+			return data.id;
+		};
+
+		const getGymId = async (): Promise<number> => {
+			const { data, error } = await supabase
+				.from('gyms')
+				.select('id')
+				.eq('name', newWorkoutData.location)
+				.single();
+
+			if (error) {
+				throw new Error('Error fetching gym ID:', error);
+			}
+			return data.id;
+		};
+
 		const { data, error } = await supabase
 			.from('workouts')
-			.insert([newWorkoutData])
+			.insert({
+				isFriend: false, // assuming this is always false for now
+				desc: newWorkoutData.desc,
+				dateTime: newWorkoutData.dateTime,
+				user_id: newWorkoutData.user_id,
+				regimen_id: await getRegimenId(),
+				gym: await getGymId()
+			})
 			.select()
 			.single();
 
@@ -54,7 +86,7 @@
 
 		// update the workouts store reactively
 		await invalidate(page.url.pathname);
-		workouts.update((current) => [...current, data]);
+		workouts.update((current) => [...current, newWorkoutData]);
 		workoutCreationFormVisible = false;
 	};
 

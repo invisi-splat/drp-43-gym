@@ -3,17 +3,20 @@
 	import { fade, scale } from 'svelte/transition';
 	import { FloatingLabelInput, Textarea, Datepicker } from 'flowbite-svelte';
 
-	let { dismissCallback, submitCallback, gyms, regimens } = $props();
+	interface Props {
+		dismissCallback: () => void;
+		submitCallback: (workoutData: WorkoutComponent) => void;
+		gyms: string[];
+		regimens: string[];
+	}
 
-	// svelte-ignore non_reactive_update
-	let selectedGym = '';
+	let { dismissCallback, submitCallback, gyms, regimens }: Props = $props();
+
+	let selectedGym = $state('');
 	let workoutDate = new Date();
-	// svelte-ignore non_reactive_update
-	let workoutTime = '';
-	// svelte-ignore non_reactive_update
-	let selectedRegimen = '';
-	// svelte-ignore non_reactive_update
-	let description = '';
+	let workoutTime = $state('');
+	let selectedRegimen = $state('');
+	let description = $state('');
 
 	const handleSubmit = (e: SubmitEvent) => {
 		// data validation stuff...
@@ -37,9 +40,12 @@
 		}
 
 		submitCallback({
+			id: 1, // placeholder due to current janky implementation
+			user_id: 2, // placeholder, replace with actual user_id if available
 			location: selectedGym,
 			dateTime: dateTime.toISOString(),
 			regimen: selectedRegimen,
+			regimenDesc: '', // placeholder, replace with actual regimen description if available
 			desc: description,
 			isFriend: false,
 			name: 'Me', // placeholder user profile
