@@ -18,9 +18,9 @@
 	});
 </script>
 
-<div class="sm:hidden">
+<div class="landscape:hidden">
 	{@render children()}
 </div>
-<div class="hidden sm:block">
+<div class="portrait:hidden">
 	<ViewportError />
 </div>
