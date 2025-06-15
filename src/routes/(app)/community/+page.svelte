@@ -97,7 +97,8 @@
 	endOfToday.setHours(23, 59, 59, 999);
 	const weekFromToday = new Date();
 	weekFromToday.setDate(today.getDate() + 7);
-	const monthFromToday = new Date(today.getMonth() + 1);
+	const monthFromToday = new Date();
+	monthFromToday.setMonth(today.getMonth() + 1);
 
 	// group workouts
 	const groupedWorkouts = derived(workouts, ($workouts) => {
@@ -117,7 +118,7 @@
 				groups['This Week'].push(workout);
 			} else if (workoutDate >= weekFromToday && workoutDate < monthFromToday) {
 				groups['This Month'].push(workout);
-			} else {
+			} else if (workoutDate >= monthFromToday) {
 				groups['Later'].push(workout);
 			}
 		}
