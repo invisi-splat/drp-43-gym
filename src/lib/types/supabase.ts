@@ -34,6 +34,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      chats: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
       exercises: {
         Row: {
           description: string | null
@@ -77,6 +92,42 @@ export type Database = {
           name?: string
         }
         Relationships: []
+      }
+      messages: {
+        Row: {
+          body: string
+          chat_id: number
+          id: number
+          user_id: number
+        }
+        Insert: {
+          body: string
+          chat_id: number
+          id?: number
+          user_id: number
+        }
+        Update: {
+          body?: string
+          chat_id?: number
+          id?: number
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_chat_id_fkey"
+            columns: ["chat_id"]
+            isOneToOne: false
+            referencedRelation: "chats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       regimens: {
         Row: {
@@ -122,6 +173,36 @@ export type Database = {
           skill?: Database["public"]["Enums"]["skill"] | null
         }
         Relationships: []
+      }
+      users_chats: {
+        Row: {
+          chat_id: number
+          user_id: number
+        }
+        Insert: {
+          chat_id: number
+          user_id: number
+        }
+        Update: {
+          chat_id?: number
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_chats_chat_id_fkey"
+            columns: ["chat_id"]
+            isOneToOne: false
+            referencedRelation: "chats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_chats_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       workouts: {
         Row: {
