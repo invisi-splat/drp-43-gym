@@ -30,3 +30,14 @@ export async function messageUser(user1: number, user2: number) {
 		goto(`/messages/chat/${data[0].chat_id}`);
 	}
 }
+
+// HACK this is not great --- should really ideally be in the db
+export const muscleGroupImageMap: Record<string, string> = {
+	legs: 'Leg-workout-muscles-broad.png',
+	arms: 'arm-workout-muscles.png',
+	chest: 'chest-workout-muscles.png',
+	back: 'back-workout-muscles.png',
+	abs: 'ab-workout-muscles.png',
+	shoulders: 'shoulder-workout-muscles.png',
+	cardio: 'athletes-heart.webp'
+};

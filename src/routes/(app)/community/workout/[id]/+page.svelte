@@ -7,7 +7,7 @@
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 	import Exercise from './exercise.svelte';
 	import { marked } from 'marked';
-	import { messageUser } from '$lib/functions';
+	import { messageUser, muscleGroupImageMap } from '$lib/functions';
 	import { onMount } from 'svelte';
 
 	let { data }: PageProps = $props();
@@ -52,6 +52,10 @@
 		</div>
 		<hr class="border-0 bg-gray-400 h-0.5 my-6" />
 		<h1 class="text-xl font-bold">What to know</h1>
+		<img
+			src="/images/{muscleGroupImageMap[data.workout.regimen!]}"
+			alt="{data.workout.regimen!} workout muscles"
+		/>
 		<p class="text-lg p-2 bg-gray-200 rounded-lg">
 			{@html marked.parse(data.workout.regimenDesc!)}
 		</p>
