@@ -1,6 +1,6 @@
 import { supabase } from '$lib/supabase';
 import type { PageLoad } from './$types';
-import { workouts } from '$lib/stores/workout';
+import { setWorkouts } from '$lib/stores/workout.svelte';
 
 const getWorkouts = async (): Promise<WorkoutComponent[]> => {
 	const { data, error } = await supabase
@@ -29,7 +29,7 @@ const getWorkouts = async (): Promise<WorkoutComponent[]> => {
 		dateTime: row.dateTime
 	}));
 
-	workouts.set(workoutsTemp);
+	setWorkouts(workoutsTemp);
 
 	return workoutsTemp;
 };

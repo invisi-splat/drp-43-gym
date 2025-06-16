@@ -12,15 +12,20 @@
 	import { page } from '$app/state';
 
 	import { gymNames } from '$lib/placeholderData';
-	import { workouts } from '$lib/stores/workout';
-	import { derived } from 'svelte/store';
+	import { bytes } from 'drizzle-orm/gel-core';
+	import { getWorkouts } from '$lib/stores/workout.svelte';
+	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	const { data } = $props<{ data: { workouts: WorkoutComponent[] } }>();
-	workouts.set(data.workouts);
+
+	const workouts = getWorkouts();
 
 	let workoutCreationFormVisible = $state(false);
 	let gymFilterName = $state('');
 	let selectedRegimen: string | null = $state(null);
+	let currentUserId: number | null = $state(null);
+	let showLoading = $state(true);
 
 	const showWorkoutCreator = () => {
 		workoutCreationFormVisible = true;
@@ -101,18 +106,25 @@
 	monthFromToday.setMonth(today.getMonth() + 1);
 
 	// group workouts
-	const groupedWorkouts = derived(workouts, ($workouts) => {
+	const groupedWorkouts = $derived.by(() => {
 		const groups: Record<string, WorkoutComponent[]> = {
+			'My workouts': [],
 			Today: [],
 			'This Week': [],
 			'This Month': [],
 			Later: []
 		};
 
-		for (const workout of $workouts) {
+		if (!currentUserId) {
+			return groups; // return nothing while component is mounting
+		}
+
+		for (const workout of getWorkouts()) {
 			const workoutDate = new Date(workout.dateTime);
 
-			if (workoutDate >= today && workoutDate < endOfToday) {
+			if (workout.user_id === Number(currentUserId)) {
+				groups['My workouts'].push(workout);
+			} else if (workoutDate >= today && workoutDate < endOfToday) {
 				groups['Today'].push(workout);
 			} else if (workoutDate >= endOfToday && workoutDate < weekFromToday) {
 				groups['This Week'].push(workout);
@@ -123,6 +135,11 @@
 			}
 		}
 		return groups;
+	});
+
+	onMount(() => {
+		showLoading = false;
+		currentUserId = Number(sessionStorage.getItem('user_id'));
 	});
 </script>
 
@@ -140,15 +157,24 @@
 <div class="h-dvh w-full overflow-y-scroll bg-gray-100">
 	<Header mainText="Workouts" rightSnippet={filter} />
 	<FilterBar bind:selectedRegimen regimens={data.regimens} />
-	{#each Object.entries($groupedWorkouts) as [groupName, workouts]}
+	{#if showLoading}
+		<div out:fly={{ y: -20, duration: 300 }} class="p-4 w-full flex justify-center items-center">
+			<p class="text-gray-500">Loading...</p>
+		</div>
+	{/if}
+	{#each Object.entries(groupedWorkouts) as [groupName, workouts]}
 		{#if workouts.length > 0}
-			<h2 class="p-4 font-bold text-xl">{groupName}</h2>
-			<div class="space-y-4">
+			<h2 in:fly={{ y: 20, delay: 300 }} class="p-4 font-bold text-xl">{groupName}</h2>
+			<div in:fly={{ y: 20, delay: 300 }} class="space-y-4">
 				{#each workouts as workout}
 					{#if (workout.location
 						.toLowerCase()
 						.startsWith(gymFilterName.toLowerCase()) || gymFilterName === '') && (selectedRegimen === null || workout.regimen === selectedRegimen)}
-						<Workout {...workout}></Workout>
+						{#if groupName === 'My workouts'}
+							<Workout {...workout} selfWorkout={true}></Workout>
+						{:else}
+							<Workout {...workout} selfWorkout={false}></Workout>
+						{/if}
 					{/if}
 				{/each}
 			</div>

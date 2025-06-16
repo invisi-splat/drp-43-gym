@@ -9,31 +9,33 @@
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
 	import { get } from 'svelte/store';
+	import { getWorkouts, setWorkouts } from '$lib/stores/workout.svelte';
+	import { messageUser } from '$lib/functions';
 
-	const { id } = $props();
+	const { id, selfWorkout } = $props();
 
-	import { derived } from 'svelte/store';
-	import { workouts } from '$lib/stores/workout';
-	const workout = derived(workouts, ($workouts) => $workouts.find((w) => w.id === id));
+	let messageButtonDisabled = $state(selfWorkout);
+
+	const workout = $derived(getWorkouts().find((w) => w.id === id));
 
 	async function handleClick() {
-		if (!$workout) return;
+		if (!workout) return;
 		console.log(
 			'updating id: ',
-			$workout.id,
+			workout.id,
 			', (',
-			$workout.name,
+			workout.name,
 			') from friend: ',
-			$workout.isFriend,
+			workout.isFriend,
 			' to friend=',
-			!$workout.isFriend
+			!workout.isFriend
 		);
-		const newIsFriend = !$workout.isFriend;
+		const newIsFriend = !workout.isFriend;
 
 		const { error } = await supabase
 			.from('workouts')
 			.update({ isFriend: newIsFriend })
-			.eq('id', $workout.id);
+			.eq('id', workout.id);
 
 		if (error) {
 			console.error('Error updating friend status:', error);
@@ -43,9 +45,9 @@
 		//retrigger data load
 		await invalidate(page.url.pathname);
 
-		//update the storee
-		workouts.update((ws) =>
-			ws.map((w) => (w.id === $workout.id ? { ...w, isFriend: newIsFriend } : w))
+		//update the store
+		setWorkouts(
+			getWorkouts().map((w) => (w.id === workout.id ? { ...w, isFriend: newIsFriend } : w))
 		);
 
 		console.log('Updated successfully!');
@@ -55,26 +57,32 @@
 <div class="w-full flex flex-col items-center">
 	<div class="rounded-2xl bg-gray-300 p-2 w-[90%] grid grid-cols-[46%_auto] gap-x-2">
 		<div class="col-span-1 flex flex-col gap-y-1">
-			<a
-				href="/messages/chat/{$workout?.user_id}"
-				class="rounded-2xl bg-gray-200 active:bg-gray-400 flex justify-center items-center p-1 gap-x-1 min-w-0"
+			<button
+				onclick={() => {
+					messageButtonDisabled = true;
+					messageUser(Number(sessionStorage.getItem('user_id')), workout?.user_id!);
+				}}
+				class="rounded-2xl {messageButtonDisabled
+					? ''
+					: 'bg-gray-200 active:bg-gray-400'} flex justify-center items-center p-1 gap-x-1 min-w-0"
+				disabled={messageButtonDisabled}
 			>
 				<User />
 				<div class="w-[80%] flex flex-col items-center justify-center min-w-0">
 					<h2 class="font-bold w-full flex flex-wrap gap-x-1 justify-center items-center" lang="en">
 						<span class="max-w-full inline-block line-clamp-2 hyphens-auto text-center"
-							>{$workout?.name}, {$workout?.age}</span
+							>{workout?.name}, {workout?.age}</span
 						>
 					</h2>
-					<h3 class="text-xs italic">{$workout?.skill}</h3>
+					<h3 class="text-xs italic">{workout?.skill}</h3>
 				</div>
-			</a>
+			</button>
 
 			<div class="grow flex justify-center items-center">
 				<PinFilled class="inline mr-1" />
 				<p class="w-[80%] text-xs">
-					<span>{$workout?.location} @</span>
-					<span class="font-bold">{dayjs($workout?.dateTime).format('ddd DD/MM, h:mma')}</span>
+					<span>{workout?.location} @</span>
+					<span class="font-bold">{dayjs(workout?.dateTime).format('ddd DD/MM, h:mma')}</span>
 				</p>
 			</div>
 			<!-- DO NOT NEED FRIENDS RIGHT NOW, CAN BE FUTURE USER STORY
@@ -101,9 +109,9 @@
 			>
 				<h2 class="whitespace-pre font-bold text-lg">
 					<span class="text-gray-600">Training</span>
-					<span class="underline">{$workout?.regimen}</span>
+					<span class="underline">{workout?.regimen}</span>
 				</h2>
-				<p class="line-clamp-2 hyphens-auto text-xs">{$workout?.desc}</p>
+				<p class="line-clamp-2 hyphens-auto text-xs">{workout?.desc}</p>
 			</a>
 		</div>
 	</div>
