@@ -77,7 +77,6 @@
 					filter: `chat_id=eq.${chatInfo.id}`
 				},
 				(payload) => {
-					console.log(payload);
 					// @ts-ignore we know that the payload is of the correct type
 					messages.push(payload.new);
 					setTimeout(() => {
