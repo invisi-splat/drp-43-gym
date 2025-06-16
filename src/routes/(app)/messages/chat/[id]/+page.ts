@@ -1,4 +1,5 @@
 import { supabase } from '$lib/supabase';
+import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params }) => {
@@ -19,7 +20,11 @@ export const load: PageLoad = async ({ params }) => {
 		.eq('id', chat_id)
 		.single();
 
-	if (data === null || error) {
+	if (data === null) {
+		redirect(303, '/messages');
+	}
+
+	if (error) {
 		throw new Error('Failed to load chat data');
 	}
 
