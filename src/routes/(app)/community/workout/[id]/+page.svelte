@@ -12,10 +12,10 @@
 
 	let { data }: PageProps = $props();
 
-	let current_user_id: number | null = $state(null);
+	let currentUserId: number | null = $state(null);
 
 	onMount(() => {
-		current_user_id = Number(sessionStorage.getItem('user_id'));
+		currentUserId = Number(sessionStorage.getItem('user_id'));
 	});
 </script>
 
@@ -39,14 +39,16 @@
 			{data.workout.desc!}
 		</p>
 		<div class="flex w-full justify-center gap-x-2">
-			<button
-				onclick={() => {
-					messageUser(current_user_id!, data.workout.user_id!);
-				}}
-				class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl"
-			>
-				<span class="pr-2">Message</span><Send class="inline-block" />
-			</button>
+			{#if !(currentUserId === null || currentUserId === data.workout.user_id!)}
+				<button
+					onclick={() => {
+						messageUser(currentUserId!, data.workout.user_id!);
+					}}
+					class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl"
+				>
+					<span class="pr-2">Message</span><Send class="inline-block" />
+				</button>
+			{/if}
 		</div>
 		<hr class="border-0 bg-gray-400 h-0.5 my-6" />
 		<h1 class="text-xl font-bold">What to know</h1>
