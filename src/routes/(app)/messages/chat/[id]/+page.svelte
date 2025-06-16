@@ -102,7 +102,10 @@
 	</a>
 {/snippet}
 
-<div bind:this={messageContainer} class="h-dvh w-full overflow-y-scroll bg-gray-100 relative pb-4">
+<div
+	bind:this={messageContainer}
+	class="h-dvh w-full overflow-y-scroll overscroll-none bg-gray-100 relative pb-4"
+>
 	<Header
 		leftSnippet={returnButton}
 		mainText={chatMembers.length > 0 ? `${chatMembers[0].name}, ${chatMembers[0].age}` : ''}

@@ -154,7 +154,7 @@
 	></Input>
 {/snippet}
 
-<div class="h-dvh w-full overflow-y-scroll bg-gray-100">
+<div class="h-dvh w-full overflow-y-scroll overscroll-none bg-gray-100">
 	<Header mainText="Workouts" rightSnippet={filter} />
 	<FilterBar bind:selectedRegimen regimens={data.regimens} />
 	{#if showLoading}
