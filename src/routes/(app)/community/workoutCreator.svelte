@@ -2,6 +2,7 @@
 	import X from 'virtual:icons/tabler/x';
 	import { fade, scale } from 'svelte/transition';
 	import { FloatingLabelInput, Textarea, Datepicker } from 'flowbite-svelte';
+	import { onMount } from 'svelte';
 
 	interface Props {
 		dismissCallback: () => void;
@@ -17,6 +18,7 @@
 	let workoutTime = $state('');
 	let selectedRegimen = $state('');
 	let description = $state('');
+	let currentUserId: number | null = $state(null);
 
 	const handleSubmit = (e: SubmitEvent) => {
 		// data validation stuff...
@@ -26,8 +28,6 @@
 		const [hours, minutes] = workoutTime.split(':').map(Number);
 		const dateTime = new Date(workoutDate);
 		dateTime.setHours(hours, minutes);
-
-		console.log(gyms, regimens);
 
 		if (!gyms.includes(selectedGym)) {
 			alert('Please select a valid gym.');
@@ -41,7 +41,7 @@
 
 		submitCallback({
 			id: 1, // placeholder due to current janky implementation
-			user_id: 2, // placeholder, replace with actual user_id if available
+			user_id: currentUserId!,
 			location: selectedGym,
 			dateTime: dateTime.toISOString(),
 			regimen: selectedRegimen,
@@ -53,6 +53,10 @@
 			skill: 'novice' // placeholder user profile
 		});
 	};
+
+	onMount(() => {
+		currentUserId = Number(sessionStorage.getItem('user_id'));
+	});
 </script>
 
 <!-- unused, but might come in useful for designing own UI components later -->
