@@ -13,7 +13,7 @@
 
 	import { gymNames } from '$lib/placeholderData';
 	import { bytes } from 'drizzle-orm/gel-core';
-	import { getWorkouts } from '$lib/stores/workout.svelte';
+	import { getWorkouts, setWorkouts } from '$lib/stores/workout.svelte';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 
@@ -91,7 +91,7 @@
 
 		// update the workouts store reactively
 		await invalidate(page.url.pathname);
-		workouts.update((current) => [...current, newWorkoutData]);
+		setWorkouts([...getWorkouts(), newWorkoutData]);
 		workoutCreationFormVisible = false;
 	};
 
