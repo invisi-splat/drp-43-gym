@@ -5,6 +5,7 @@
 	import Header from '$lib/components/header.svelte';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
+	import { fly } from 'svelte/transition';
 
 	// XXX the types for this really should be fixed... but i am so tired
 	let chats: any = $state([]);
@@ -34,13 +35,15 @@
 	<div class="h-4"></div>
 	<!-- HACK this fully runs off the assumption that the only chats that exist are 2-person DMs -->
 	{#if chats.length > 0}
-		<Chat chatId={chats[0][0]} chatName={chats[0][1][0].name} chatPreview={'...'} />
-		{#each chats.slice(1) as chat}
-			<ChatDivider />
-			<Chat chatId={chat[0]} chatName={chat[1][0].name} chatPreview={'...'} />
-		{/each}
+		<div in:fly={{ y: 20, delay: 300 }}>
+			<Chat chatId={chats[0][0]} chatName={chats[0][1][0].name} chatPreview={'...'} />
+			{#each chats.slice(1) as chat}
+				<ChatDivider />
+				<Chat chatId={chat[0]} chatName={chat[1][0].name} chatPreview={'...'} />
+			{/each}
+		</div>
 	{:else}
-		<div class="flex w-full p-4 justify-center">
+		<div out:fly={{ y: -20, duration: 300 }} class="flex w-full p-4 justify-center">
 			<p>No chats created.</p>
 		</div>
 	{/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
 	import PlaceholderUser from 'virtual:icons/tabler/user-circle';
 
 	interface Props {

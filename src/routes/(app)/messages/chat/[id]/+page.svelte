@@ -5,15 +5,23 @@
 	import Message from './message.svelte';
 	import ArrowBackUp from 'virtual:icons/tabler/arrow-back-up';
 	import type { PageProps } from './$types';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { supabase } from '$lib/supabase';
-
-	const longMessage = 'hello how are you doing';
 
 	let { data: chatInfo }: PageProps = $props();
 
+	let messages: {
+		body: string;
+		chat_id: number;
+		id: number;
+		user_id: number;
+	}[] = $state(chatInfo.messages);
+
 	let chatMembers: { id: number; name: string; age: number }[] = $state([]);
 	let currentUserId: number | null = $state(null);
+
+	let channel: ReturnType<typeof supabase.channel> | null = null;
+	let messageContainer: HTMLDivElement | null = $state(null);
 
 	const inputBarSubmitCallback = async (text: string) => {
 		const { data: response, error } = await supabase
@@ -29,9 +37,15 @@
 		if (error) {
 			throw new Error('Failed to send message');
 		}
-
-		chatInfo.messages.push(response);
 	};
+
+	$effect(() => {
+		if (messageContainer) {
+			setTimeout(() => {
+				messageContainer!.scrollTop = messageContainer!.scrollHeight;
+			}, 50);
+		}
+	});
 
 	onMount(async () => {
 		currentUserId = Number(sessionStorage.getItem('user_id'));
@@ -51,6 +65,34 @@
 			name: usersChats.users.name,
 			age: usersChats.users.age
 		}));
+
+		const channel = supabase
+			.channel('changes')
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
+					table: 'messages',
+					filter: `chat_id=eq.${chatInfo.id}`
+				},
+				// @ts-ignore
+				(payload) => {
+					console.log(payload);
+					messages.push(payload.new);
+					setTimeout(() => {
+						messageContainer!.scrollTop = messageContainer!.scrollHeight;
+					}, 50);
+				}
+			)
+			.subscribe();
+	});
+
+	onDestroy(() => {
+		if (channel) {
+			supabase.removeChannel(channel);
+			channel = null;
+		}
 	});
 </script>
 
@@ -60,7 +102,7 @@
 	</a>
 {/snippet}
 
-<div class="h-dvh w-full overflow-y-scroll bg-gray-100 relative pb-4">
+<div bind:this={messageContainer} class="h-dvh w-full overflow-y-scroll bg-gray-100 relative pb-4">
 	<Header
 		leftSnippet={returnButton}
 		mainText={chatMembers.length > 0 ? `${chatMembers[0].name}, ${chatMembers[0].age}` : ''}
@@ -71,8 +113,12 @@
 		</div>
 	{:else}
 		<div class="mt-4 space-y-5">
-			{#each chatInfo.messages as message}
+			{#each messages as message}
 				<Message text={message.body} selfSent={message.user_id === currentUserId} />
+			{:else}
+				<div class="flex w-full p-4 text-gray-400 justify-center">
+					<p>No messages yet. Get chatting!</p>
+				</div>
 			{/each}
 		</div>
 	{/if}
