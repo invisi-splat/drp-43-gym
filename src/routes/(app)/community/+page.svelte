@@ -11,8 +11,6 @@
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
 
-	import { gymNames } from '$lib/placeholderData';
-	import { bytes } from 'drizzle-orm/gel-core';
 	import { getWorkouts, setWorkouts } from '$lib/stores/workout.svelte';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
@@ -91,8 +89,8 @@
 
 		// update the workouts store reactively
 		await invalidate(page.url.pathname);
-		setWorkouts([...getWorkouts(), newWorkoutData]);
 		workoutCreationFormVisible = false;
+		location.reload();
 	};
 
 	// helper: get start of today, this week, this month

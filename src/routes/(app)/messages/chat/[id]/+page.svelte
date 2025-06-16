@@ -66,7 +66,7 @@
 			age: usersChats.users.age
 		}));
 
-		const channel = supabase
+		supabase
 			.channel('changes')
 			.on(
 				'postgres_changes',
@@ -76,9 +76,9 @@
 					table: 'messages',
 					filter: `chat_id=eq.${chatInfo.id}`
 				},
-				// @ts-ignore
 				(payload) => {
 					console.log(payload);
+					// @ts-ignore we know that the payload is of the correct type
 					messages.push(payload.new);
 					setTimeout(() => {
 						messageContainer!.scrollTop = messageContainer!.scrollHeight;

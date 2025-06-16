@@ -1,14 +1,10 @@
 <script lang="ts">
 	import User from 'virtual:icons/tabler/user';
-	import UserPlus from 'virtual:icons/tabler/user-plus';
 	import PinFilled from 'virtual:icons/tabler/map-pin-filled';
-	import MoodCheck from 'virtual:icons/tabler/mood-check';
-	import Send from 'virtual:icons/tabler/send';
 	import dayjs from 'dayjs';
 	import { supabase } from '$lib/supabase';
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
-	import { get } from 'svelte/store';
 	import { getWorkouts, setWorkouts } from '$lib/stores/workout.svelte';
 	import { messageUser } from '$lib/functions';
 
