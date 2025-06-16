@@ -40,7 +40,7 @@
 
 <h1 class="z-50 top-0 py-2 px-4 bg-gray-200 h-auto sticky shadow-sm/50 flex items-center gap-x-4">
 	{@render leftSnippet?.()}
-	<p class="py-2 font-bold text-2xl">{mainText}</p>
+	<p class="py-2 font-bold text-xl">{mainText}</p>
 	{@render rightSnippet?.()}
 	<div class="flex-grow flex justify-end items-center">
 		<Button class="bg-blue-500 px-2">Profile<ChevronDown /></Button>

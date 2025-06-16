@@ -37,15 +37,15 @@ export type Database = {
       chats: {
         Row: {
           id: number
-          name: string
+          name: string | null
         }
         Insert: {
           id?: number
-          name: string
+          name?: string | null
         }
         Update: {
           id?: number
-          name?: string
+          name?: string | null
         }
         Relationships: []
       }
@@ -261,7 +261,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_private_chat: {
+        Args: { user1: number; user2: number }
+        Returns: {
+          chat_id: number
+        }[]
+      }
     }
     Enums: {
       regimen:
