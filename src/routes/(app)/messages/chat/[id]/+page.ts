@@ -16,11 +16,12 @@ export const load: PageLoad = async ({ params }) => {
 		id, name, messages ( * )
 		`
 		)
-		.eq('id', chat_id);
+		.eq('id', chat_id)
+		.single();
 
-	if (error) {
+	if (data === null || error) {
 		throw new Error('Failed to load chat data');
 	}
 
-	return { chat_id, data };
+	return data;
 };

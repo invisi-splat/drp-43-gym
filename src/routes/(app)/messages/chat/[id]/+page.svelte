@@ -10,26 +10,36 @@
 
 	const longMessage = 'hello how are you doing';
 
-	let { data: propData }: PageProps = $props();
-	let messages = $state([
-		{ text: longMessage, selfSent: true },
-		{ text: 'great', selfSent: false },
-		{ text: 'do you want to go gym???', selfSent: false },
-		{ text: "yeah bro!!! let's go gym!!! yeah gym!!!", selfSent: true }
-	]);
-	let chatMembers: { id: number; name: string; age: number }[] = $state([]);
+	let { data: chatInfo }: PageProps = $props();
 
-	const inputBarSubmitCallback = (text: string) => {
-		messages.push({ text, selfSent: true });
+	let chatMembers: { id: number; name: string; age: number }[] = $state([]);
+	let currentUserId: number | null = $state(null);
+
+	const inputBarSubmitCallback = async (text: string) => {
+		const { data: response, error } = await supabase
+			.from('messages')
+			.insert({
+				body: text,
+				chat_id: chatInfo.id,
+				user_id: currentUserId!
+			})
+			.select('*')
+			.single();
+
+		if (error) {
+			throw new Error('Failed to send message');
+		}
+
+		chatInfo.messages.push(response);
 	};
 
 	onMount(async () => {
-		const currentUserId = Number(sessionStorage.getItem('user_id'));
+		currentUserId = Number(sessionStorage.getItem('user_id'));
 
 		const { data: response, error } = await supabase
 			.from('users_chats')
 			.select('user_id, users (name, age)')
-			.eq('chat_id', propData.chat_id);
+			.eq('chat_id', chatInfo.id);
 
 		if (error) {
 			throw new Error('Failed to load chat data');
@@ -55,11 +65,17 @@
 		leftSnippet={returnButton}
 		mainText={chatMembers.length > 0 ? `${chatMembers[0].name}, ${chatMembers[0].age}` : ''}
 	/>
-	<div class="mt-4 space-y-5">
-		{#each messages as message}
-			<Message text={message.text} selfSent={message.selfSent} />
-		{/each}
-	</div>
+	{#if currentUserId === null}
+		<div class="flex w-full p-4 justify-center">
+			<p>Loading chat...</p>
+		</div>
+	{:else}
+		<div class="mt-4 space-y-5">
+			{#each chatInfo.messages as message}
+				<Message text={message.body} selfSent={message.user_id === currentUserId} />
+			{/each}
+		</div>
+	{/if}
 	<NavbarCompensation size="h-32" />
 </div>
 
