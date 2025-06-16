@@ -24,6 +24,9 @@
 		// data validation stuff...
 		e.preventDefault();
 
+		selectedGym = selectedGym.trim();
+		selectedRegimen = selectedRegimen.trim();
+
 		//build dateTime from date + time string
 		const [hours, minutes] = workoutTime.split(':').map(Number);
 		const dateTime = new Date(workoutDate);
