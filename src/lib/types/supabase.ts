@@ -261,6 +261,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_chat_containing_user: {
+        Args: { user1: number }
+        Returns: {
+          user_id: number
+          name: string
+          chat_id: number
+        }[]
+      }
       get_private_chat: {
         Args: { user1: number; user2: number }
         Returns: {
