@@ -4,6 +4,11 @@ html {
 	font-family: 'Libre Baskerville', serif;
 }
 
+body {
+	overscroll-behavior: none;
+	overflow: hidden;
+}
+
 /* Custom Tailwind styles */
 
 @theme {

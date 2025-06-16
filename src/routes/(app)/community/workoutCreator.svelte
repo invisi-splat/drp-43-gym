@@ -2,29 +2,35 @@
 	import X from 'virtual:icons/tabler/x';
 	import { fade, scale } from 'svelte/transition';
 	import { FloatingLabelInput, Textarea, Datepicker } from 'flowbite-svelte';
+	import { onMount } from 'svelte';
 
-	let { dismissCallback, submitCallback, gyms, regimens } = $props();
+	interface Props {
+		dismissCallback: () => void;
+		submitCallback: (workoutData: WorkoutComponent) => void;
+		gyms: string[];
+		regimens: string[];
+	}
 
-	// svelte-ignore non_reactive_update
-	let selectedGym = '';
+	let { dismissCallback, submitCallback, gyms, regimens }: Props = $props();
+
+	let selectedGym = $state('');
 	let workoutDate = new Date();
-	// svelte-ignore non_reactive_update
-	let workoutTime = '';
-	// svelte-ignore non_reactive_update
-	let selectedRegimen = '';
-	// svelte-ignore non_reactive_update
-	let description = '';
+	let workoutTime = $state('');
+	let selectedRegimen = $state('');
+	let description = $state('');
+	let currentUserId: number | null = $state(null);
 
 	const handleSubmit = (e: SubmitEvent) => {
 		// data validation stuff...
 		e.preventDefault();
 
+		selectedGym = selectedGym.trim();
+		selectedRegimen = selectedRegimen.trim();
+
 		//build dateTime from date + time string
 		const [hours, minutes] = workoutTime.split(':').map(Number);
 		const dateTime = new Date(workoutDate);
 		dateTime.setHours(hours, minutes);
-
-		console.log(gyms, regimens);
 
 		if (!gyms.includes(selectedGym)) {
 			alert('Please select a valid gym.');
@@ -37,9 +43,12 @@
 		}
 
 		submitCallback({
+			id: 1, // placeholder due to current janky implementation
+			user_id: currentUserId!,
 			location: selectedGym,
 			dateTime: dateTime.toISOString(),
 			regimen: selectedRegimen,
+			regimenDesc: '', // placeholder, replace with actual regimen description if available
 			desc: description,
 			isFriend: false,
 			name: 'Me', // placeholder user profile
@@ -47,6 +56,10 @@
 			skill: 'novice' // placeholder user profile
 		});
 	};
+
+	onMount(() => {
+		currentUserId = Number(sessionStorage.getItem('user_id'));
+	});
 </script>
 
 <!-- unused, but might come in useful for designing own UI components later -->

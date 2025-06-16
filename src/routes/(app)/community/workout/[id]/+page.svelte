@@ -7,8 +7,16 @@
 	import NavbarCompensation from '$lib/components/navbarCompensation.svelte';
 	import Exercise from './exercise.svelte';
 	import { marked } from 'marked';
+	import { messageUser } from '$lib/functions';
+	import { onMount } from 'svelte';
 
 	let { data }: PageProps = $props();
+
+	let currentUserId: number | null = $state(null);
+
+	onMount(() => {
+		currentUserId = Number(sessionStorage.getItem('user_id'));
+	});
 </script>
 
 {#snippet returnButton()}
@@ -31,12 +39,16 @@
 			{data.workout.desc!}
 		</p>
 		<div class="flex w-full justify-center gap-x-2">
-			<a
-				href="/messages/chat/{data.workout.user_id!}"
-				class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl"
-			>
-				<span class="pr-2">Message</span><Send class="inline-block" />
-			</a>
+			{#if !(currentUserId === null || currentUserId === data.workout.user_id!)}
+				<button
+					onclick={() => {
+						messageUser(currentUserId!, data.workout.user_id!);
+					}}
+					class="bg-gray-200 active:bg-gray-400 p-2 rounded-xl"
+				>
+					<span class="pr-2">Message</span><Send class="inline-block" />
+				</button>
+			{/if}
 		</div>
 		<hr class="border-0 bg-gray-400 h-0.5 my-6" />
 		<h1 class="text-xl font-bold">What to know</h1>
