@@ -66,7 +66,7 @@
 			age: usersChats.users.age
 		}));
 
-		supabase
+		channel = supabase
 			.channel('changes')
 			.on(
 				'postgres_changes',
